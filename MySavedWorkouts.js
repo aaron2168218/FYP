@@ -1,4 +1,3 @@
-// MySavedWorkouts.js
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Alert, ScrollView } from 'react-native';
 import { useUser } from './UserContext';
@@ -23,6 +22,11 @@ const MySavedWorkouts = ({ navigation }) => {
     ]);
   };
 
+  const handleGoToWorkoutSession = (workouts) => {
+    // Navigate to WorkoutSession screen with the workouts of the selected routine
+    navigation.navigate('WorkoutSession', { workouts });
+  };
+
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.title}>My Saved Workouts</Text>
@@ -30,7 +34,7 @@ const MySavedWorkouts = ({ navigation }) => {
         <View key={index} style={styles.workoutBox}>
           <TouchableOpacity onPress={() => toggleWorkoutDetails(index)} style={styles.workoutHeader}>
             <Text style={styles.workoutName}>{workout.routineName}</Text>
-            <TouchableOpacity style={styles.goButton} onPress={() => navigation.navigate('WorkoutSession')}>
+            <TouchableOpacity style={styles.goButton} onPress={() => handleGoToWorkoutSession(workout.workouts)}>
               <Text style={styles.goButtonText}>GO</Text>
             </TouchableOpacity>
           </TouchableOpacity>
