@@ -22,17 +22,14 @@ export const UserProvider = ({ children }) => {
       return [];
     }
   };
-
   const login = async (username, password) => {
     try {
       const userString = await AsyncStorage.getItem(username);
       const storedUser = userString ? JSON.parse(userString) : null;
       if (storedUser && storedUser.password === password) {
-        // Load saved workouts during login
-        const savedWorkouts = await loadUserWorkouts(username);
-        const userWithWorkouts = { ...storedUser, savedWorkouts };
-        console.log("User logged in:", userWithWorkouts);
-        setUser(userWithWorkouts);
+        // Assume savedWorkouts is part of storedUser
+        setUser(storedUser); // Set the user with all details including fitnessLevel
+        console.log("User logged in:", storedUser); // Log the full user object
         return true;
       }
       return false;
@@ -41,16 +38,22 @@ export const UserProvider = ({ children }) => {
       return false;
     }
   };
+  
 
-  const signup = async (username, password) => {
+  const signup = async (username, password, userDetails) => {
     try {
       const existingUser = await AsyncStorage.getItem(username);
       if (existingUser) {
-        return false;
+        return false; // User already exists
       } else {
-        const newUser = { username, password, savedWorkouts: [] };
+        const newUser = {
+          username,
+          password,
+          ...userDetails, // Include additional details such as fitnessLevel, age, etc.
+          savedWorkouts: []
+        };
         await AsyncStorage.setItem(username, JSON.stringify(newUser));
-        setUser(newUser);
+        setUser(newUser); // Set the newly created user
         return true;
       }
     } catch (error) {
@@ -58,6 +61,18 @@ export const UserProvider = ({ children }) => {
       return false;
     }
   };
+  const updateUserDetails = async (updatedDetails) => {
+    if (user) {
+      const updatedUser = { ...user, ...updatedDetails };
+      try {
+        await AsyncStorage.setItem(user.username, JSON.stringify(updatedUser));
+        setUser(updatedUser); // Update user in context with new details
+      } catch (error) {
+        console.error("Error updating user details:", error);
+      }
+    }
+  };
+  
 
   const logout = () => {
     setUser(null);
@@ -103,7 +118,7 @@ export const UserProvider = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={{ user, login, signup, logout, clearStorage, saveRoutine, deleteRoutine }}>
+    <UserContext.Provider value={{ user, login, signup, logout, clearStorage, saveRoutine, deleteRoutine, updateUserDetails }}>
       {children}
     </UserContext.Provider>
   );

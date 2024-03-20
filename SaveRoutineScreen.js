@@ -23,7 +23,7 @@ const SaveRoutineScreen = ({ route, navigation }) => {
       workouts: selectedWorkouts,
     });
     console.log('Complete Routine Saved:', { routineName, description, selectedWorkouts });
-    navigation.goBack(); // Navigate back to the main workout screen
+    navigation.navigate('WorkoutHome') // Navigate back to the main workout screen
   };
 
   return (

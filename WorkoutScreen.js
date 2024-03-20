@@ -30,7 +30,7 @@ const WorkoutScreen = ({ navigation }) => {
         style={styles.button}
         onPress={() => navigation.navigate('CreateWorkout')}
       >
-        <Text style={styles.buttonText}>Create Workout</Text>
+<Text style={styles.buttonText}>Create Workout</Text>
       </TouchableOpacity>
       {/* Assuming WorkoutLibrary is a placeholder for a future feature */}
       <TouchableOpacity
