@@ -87,20 +87,38 @@ export const UserProvider = ({ children }) => {
   };
 
   // Function to save a new workout routine for the logged-in user
-  const saveRoutine = async (routine) => {
+  const saveRoutine = async (routine, routineId = null) => {
     if (user) {
-      const updatedUser = {
-        ...user,
-        savedWorkouts: [...user.savedWorkouts, routine],
-      };
+      let updatedUser;
+      if (routineId !== null) {
+        // Update existing routine
+        updatedUser = {
+          ...user,
+          savedWorkouts: user.savedWorkouts.map((item, index) => {
+            if (index === routineId) {
+              return { ...item, ...routine };
+            }
+            return item;
+          }),
+        };
+      } else {
+        // Add new routine
+        updatedUser = {
+          ...user,
+          savedWorkouts: [...user.savedWorkouts, routine],
+        };
+      }
+  
       try {
         await AsyncStorage.setItem(user.username, JSON.stringify(updatedUser));
-        setUser(updatedUser); // Update user in context with new workouts
+        setUser(updatedUser); // Update user in context with updated workouts
       } catch (error) {
-        console.error("Error saving routine:", error);
+        console.error("Error saving or updating routine:", error);
       }
     }
   };
+
+  
 
   // Function to delete a workout routine
   const deleteRoutine = async (routineIndex) => {

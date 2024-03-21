@@ -27,6 +27,17 @@ const MySavedWorkouts = ({ navigation }) => {
     navigation.navigate('WorkoutSession', { workouts });
   };
 
+  const handleEditWorkout = (workout, index) => {
+    navigation.navigate('CreateWorkout', {
+      selectedWorkoutIds: workout.workouts.map(w => w.id),
+      routineDetails: {
+        name: workout.routineName,
+        description: workout.description,
+      },
+      routineId: index, // Pass the index as routineId
+    });
+  };
+
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.title}>My Saved Workouts</Text>
@@ -34,9 +45,6 @@ const MySavedWorkouts = ({ navigation }) => {
         <View key={index} style={styles.workoutBox}>
           <TouchableOpacity onPress={() => toggleWorkoutDetails(index)} style={styles.workoutHeader}>
             <Text style={styles.workoutName}>{workout.routineName}</Text>
-            <TouchableOpacity style={styles.goButton} onPress={() => handleGoToWorkoutSession(workout.workouts)}>
-              <Text style={styles.goButtonText}>GO</Text>
-            </TouchableOpacity>
           </TouchableOpacity>
           {expandedWorkout === index && (
             <View style={styles.workoutDetails}>
@@ -46,9 +54,17 @@ const MySavedWorkouts = ({ navigation }) => {
               ))}
             </View>
           )}
-          <TouchableOpacity style={styles.deleteButton} onPress={() => handleDeleteWorkout(index)}>
-            <Text style={styles.deleteButtonText}>Delete</Text>
-          </TouchableOpacity>
+          <View style={styles.buttonGroup}>
+            <TouchableOpacity style={styles.actionButton} onPress={() =>  handleEditWorkout(workout, index)}>
+              <Text style={styles.actionButtonText}>Edit</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.actionButton} onPress={() => handleDeleteWorkout(index)}>
+              <Text style={styles.actionButtonText}>Delete</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.actionButton} onPress={() => handleGoToWorkoutSession(workout.workouts)}>
+              <Text style={styles.actionButtonText}>GO</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       ))}
     </ScrollView>
@@ -56,6 +72,56 @@ const MySavedWorkouts = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+
+    buttonGroup: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly', // This will space out your buttons evenly
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  actionButton: {
+    backgroundColor: '#2196F3', // Blue color for all action buttons
+    paddingVertical: 8,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+    // Ensuring each button has equal width and alignments
+    flexGrow: 1,
+    marginHorizontal: 5,
+  },
+  actionButtonText: {
+    color: '#FFFFFF',
+    fontWeight: 'bold',
+    textAlign: 'center', // Ensuring text is centered in each button
+    fontSize: 16,
+  },
+  // Keep your deleteButton styles as they are
+  
+  editButton: {
+    backgroundColor: '#2196F3', // Blue color for the edit button
+    paddingVertical: 8,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+    marginLeft: 10, // Space between delete and edit buttons
+    shadowColor: '#2196F3',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 2,
+  },
+  
+  goButton: {
+    backgroundColor: '#4CAF50', // Green color for the go button
+    paddingVertical: 8,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+    marginLeft: 10, // Space between edit and go buttons
+    shadowColor: '#4CAF50',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 2,
+  },
+  
     container: {
       flex: 1,
       padding: 20,
@@ -135,7 +201,7 @@ const styles = StyleSheet.create({
     deleteButtonText: {
       color: '#FFFFFF',
       fontWeight: 'bold',
-      fontSize: 16, // Consistent font size with GO button
+      fontSize: 16,
       textAlign: 'center',
     },
   });

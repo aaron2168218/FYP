@@ -13,6 +13,7 @@ import CreateWorkoutScreen from "./CreateWorkoutScreen";
 import SaveRoutineScreen from './SaveRoutineScreen';
 import MySavedWorkouts from './MySavedWorkouts';
 import WorkoutSessionScreen from "./WorkoutSession";
+import WorkoutLibrary from "./WorkoutLibrary";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -26,6 +27,7 @@ function WorkoutStack() {
       <Stack.Screen name="SaveRoutine" component={SaveRoutineScreen} />
       <Stack.Screen name="MySavedWorkouts" component={MySavedWorkouts} />
       <Stack.Screen name="WorkoutSession" component={WorkoutSessionScreen} />
+      <Stack.Screen name="WorkoutLibrary" component={WorkoutLibrary} />
     </Stack.Navigator>
   );
 }

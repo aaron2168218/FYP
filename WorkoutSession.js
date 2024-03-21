@@ -45,7 +45,7 @@ const getWorkoutDescription = (workoutName) => {
 };
 
 const WorkoutSessionScreen = ({ route, navigation }) => {
-  const { workouts } = route.params;
+  const { workouts, showRecommendations = true } = route.params; 
   const [currentIndex, setCurrentIndex] = useState(0);
   const fadeAnim = new Animated.Value(0);
   const screenWidth = Dimensions.get('window').width;
@@ -72,34 +72,20 @@ const WorkoutSessionScreen = ({ route, navigation }) => {
   };
 
   const displayRecommendation = () => {
+    if (!showRecommendations) return ""; // Do not show recommendations if parameter is false
+  
     const currentWorkout = workouts[currentIndex];
     if (!user || !user.fitnessLevel || !currentWorkout.recommendations) {
       return "No recommendation available";
     }
-  
     const recommendation = currentWorkout.recommendations[user.fitnessLevel];
-  
-    // Initialize an empty array to hold recommendation parts
     let recommendationParts = [];
-  
-    // Check for reps and add to recommendationParts if present
-    if (recommendation.reps) {
-      recommendationParts.push(`${recommendation.reps} reps`);
-    }
-  
-    // Check for sets and add to recommendationParts if present
-    if (recommendation.sets) {
-      recommendationParts.push(`${recommendation.sets} sets`);
-    }
-  
-    // Check for time and add to recommendationParts if present
+    if (recommendation.reps) recommendationParts.push(`${recommendation.reps} reps`);
+    if (recommendation.sets) recommendationParts.push(`${recommendation.sets} sets`);
     if (recommendation.time) {
-      // Adjust text based on presence of reps or sets
       const timeText = recommendationParts.length > 0 ? `for ${recommendation.time}` : `Hold for ${recommendation.time}`;
       recommendationParts.push(timeText);
     }
-  
-    // Join recommendationParts with a comma and space, or return a default message if empty
     return recommendationParts.length > 0 ? recommendationParts.join(", ") : "No specific recommendation";
   };
 
@@ -112,7 +98,11 @@ const WorkoutSessionScreen = ({ route, navigation }) => {
         <View style={styles.progressBarContainer}>
           <View style={[styles.progressBar, { width: `${((currentIndex + 1) / workouts.length) * 100}%` }]} />
         </View>
-        <Text style={styles.recommendationText}>Based on you Fitness Level, we recommend: {displayRecommendation()}</Text>
+        {showRecommendations && (
+          <Text style={styles.recommendationText}>
+            Based on your Fitness Level, we recommend: {displayRecommendation()}
+          </Text>
+        )}
         <TouchableOpacity style={styles.button} onPress={handleNextWorkout}>
           <Text style={styles.buttonText}>{currentIndex < workouts.length - 1 ? 'Next Workout' : 'Finish Session'}</Text>
         </TouchableOpacity>
@@ -122,6 +112,7 @@ const WorkoutSessionScreen = ({ route, navigation }) => {
       </TouchableOpacity>
     </View>
   );
+
 };
 
 

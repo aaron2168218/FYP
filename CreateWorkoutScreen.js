@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, FlatList, Image, TextInput } from 'react-native';
+import React, { useState, useEffect} from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, FlatList, Image, TextInput} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useUser } from './UserContext';
 
@@ -126,12 +126,27 @@ const workoutData = [
     },
   ];;
 
-const CreateWorkoutScreen = () => {
-  const [selectedWorkouts, setSelectedWorkouts] = useState([]);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('All');
-  const navigation = useNavigation();
-  const { user } = useUser();
+  const CreateWorkoutScreen = ({ route }) => {
+    const [selectedWorkouts, setSelectedWorkouts] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState('All');
+    const navigation = useNavigation();
+    const { user } = useUser();
+    const [routineName, setRoutineName] = useState('');
+const [description, setDescription] = useState('');
+
+useEffect(() => {
+  // Check if we have selected workout IDs and pre-select them
+  if (route.params?.selectedWorkoutIds) {
+    setSelectedWorkouts(route.params.selectedWorkoutIds);
+  }
+
+  // Also pre-populate the routine name and description if present
+  if (route.params?.routineDetails) {
+    setRoutineName(route.params.routineDetails.name);
+    setDescription(route.params.routineDetails.description);
+  }
+}, [route.params]);
 
   const recommendedWorkouts = {
     Beginner: ['1', '2'],
@@ -202,9 +217,15 @@ const CreateWorkoutScreen = () => {
 <TouchableOpacity
   style={styles.saveButton}
   onPress={() => {
-    // Convert IDs to full workout objects
     const selectedWorkoutsFull = selectedWorkouts.map(id => workoutData.find(workout => workout.id === id));
-    navigation.navigate('SaveRoutine', { selectedWorkouts: selectedWorkoutsFull });
+    navigation.navigate('SaveRoutine', {
+      selectedWorkouts: selectedWorkoutsFull,
+      routineDetails: {
+        name: routineName,
+        description: description,
+      },
+      routineId: route.params?.routineId, 
+    });
   }}
 >
   <Text style={styles.saveButtonText}>Save Routine</Text>
@@ -229,8 +250,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 5,
     alignItems: 'center',
-    paddingRight: 10, // Add padding to the right side of the container
-    marginRight: 10, // Add margin to the right side of the container
+    paddingRight: 10, 
+    marginRight: 10, 
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -250,14 +271,14 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   workoutDetails: {
-    flex: 1, // Take up remaining space
+    flex: 1,
   },
   workoutName: {
     fontWeight: 'bold',
-    marginBottom: 5, // Add some bottom margin for spacing
+    marginBottom: 5, 
   },
   workoutDescription: {
-    marginBottom: 5, // Add some bottom margin for spacing
+    marginBottom: 5, 
   },
   saveButton: {
     backgroundColor: '#007bff',

@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
 import { useUser } from './UserContext'; // Import useUser from UserContext
 
 const SaveRoutineScreen = ({ route, navigation }) => {
-  const { selectedWorkouts } = route.params;
+  const { selectedWorkouts, routineId } = route.params;
   const [routineName, setRoutineName] = useState('');
   const [description, setDescription] = useState('');
   const { saveRoutine } = useUser(); // Use saveRoutine function from UserContext
@@ -21,10 +21,17 @@ const SaveRoutineScreen = ({ route, navigation }) => {
       routineName,
       description,
       workouts: selectedWorkouts,
-    });
+    }, routineId);
     console.log('Complete Routine Saved:', { routineName, description, selectedWorkouts });
     navigation.navigate('WorkoutHome') // Navigate back to the main workout screen
   };
+
+  useEffect(() => {
+    if (route.params?.routineDetails) {
+      setRoutineName(route.params.routineDetails.name);
+      setDescription(route.params.routineDetails.description);
+    }
+  }, [route.params]);
 
   return (
     <View style={styles.container}>
