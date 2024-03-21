@@ -36,7 +36,7 @@ function MainApp() {
   return (
     <Tab.Navigator>
       <Tab.Screen name="Workout" component={WorkoutStack} />
-      <Tab.Screen name="Food" component={FoodScreen} />
+      <Tab.Screen name="Calories" component={FoodScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );

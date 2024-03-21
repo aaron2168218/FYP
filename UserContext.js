@@ -134,9 +134,44 @@ export const UserProvider = ({ children }) => {
       }
     }
   };
+  const updateUserFoodItems = async (foodItems) => {
+    if (user) {
+      const updatedUser = { ...user, foodItems };
+      try {
+        await AsyncStorage.setItem(user.username, JSON.stringify(updatedUser));
+        setUser(updatedUser); // Update user context
+      } catch (error) {
+        console.error("Error updating food items:", error);
+      }
+    }
+  };
+  
+  const updateCalorieTarget = async (calorieTarget) => {
+    if (user) {
+      const updatedUser = { ...user, calorieTarget };
+      try {
+        await AsyncStorage.setItem(user.username, JSON.stringify(updatedUser));
+        setUser(updatedUser); // Update user context
+      } catch (error) {
+        console.error("Error updating calorie target:", error);
+      }
+    }
+  };
+  
+  const clearFoodItems = async () => {
+    if (user) {
+      const updatedUser = { ...user, foodItems: [] };
+      try {
+        await AsyncStorage.setItem(user.username, JSON.stringify(updatedUser));
+        setUser(updatedUser); // Clear food items in user context
+      } catch (error) {
+        console.error("Error clearing food items:", error);
+      }
+    }
+  };
 
   return (
-    <UserContext.Provider value={{ user, login, signup, logout, clearStorage, saveRoutine, deleteRoutine, updateUserDetails }}>
+    <UserContext.Provider value={{ user, login, signup, logout, clearStorage, saveRoutine, deleteRoutine, updateUserDetails, updateCalorieTarget,updateUserFoodItems,clearFoodItems }}>
       {children}
     </UserContext.Provider>
   );

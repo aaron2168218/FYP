@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, Animated, Dimensions } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet, Animated, Dimensions, Alert } from 'react-native';
 import { useUser } from './UserContext';
 
 // Image lookup based on workout names
@@ -14,9 +14,18 @@ const workoutImages = {
   'leg raises': require('./assets/Leg-raises.png'),
   'tricep dips': require('./assets/dips.png'),
   'bridge': require('./assets/bridge.png'),
+  'hand release pushups': require('./assets/handReleasePushups.png'),
+  'pike pushups': require('./assets/pikePushups.jpg'),
+  'diamond pushups': require('./assets/diamondPushups.jpg'),
+  'bear crawls': require('./assets/bearCrawls.jpg'),
+  'lateral planks walks': require('./assets/lateralPlankWalks.jpg'),
+  'crab walks': require('./assets/crabWalks.jpg'),
+  'flutter kicks': require('./assets/flutterKicks.jpg'),
+  'russian twists': require('./assets/russianTwists.jpg'),
+  'frog jumps': require('./assets/frogJumps.jpg'),
+  'inchworms': require('./assets/inchworms.jpg'),
   'default': require('./assets/Logo.png'),
 };
-
 const resolveImage = (workoutName) => {
   const imageName = workoutName.toLowerCase();
   return workoutImages[imageName] || workoutImages['default'];
@@ -25,17 +34,26 @@ const resolveImage = (workoutName) => {
 
 // Manual descriptions based on workout names
 const workoutDescriptions = {
-    'pushups': "Pushups target your chest, shoulders, and triceps. Keep your body in a straight line from head to heels and lower your body until your chest nearly touches the floor.",
-    'sit-ups': "Sit-ups primarily target your abdominal muscles. Lie on your back with knees bent and feet anchored. Tuck your chin slightly, and lift your upper body towards your thighs.",
-    'squats': "Squats strengthen your lower body and core. Stand with feet hip-width apart, then bend at the knees and hips to lower down as if sitting back into a chair.",
-    'lunges': "Lunges are great for leg and glute strengthening. Step forward with one leg, lowering your hips until both knees are bent at about a 90-degree angle.",
-    'planks': "Planks strengthen the core, shoulders, and arms. Position yourself in a pushup stance but with your forearms on the ground. Keep your body straight and hold.",
-    'mountain climbers': "Mountain climbers are a full-body workout that also provides a cardio boost. Start in a plank position, then alternate bringing your knees towards your chest rapidly.",
-    'burpees': "Burpees are a high-intensity, full-body exercise. Start standing, drop into a squat, kick your feet back into a pushup position, then return to standing and jump.",
-    'leg raises': "Leg raises target the lower abdomen. Lie on your back, legs straight, then lift your legs to a 90-degree angle and slowly lower them back down.",
-    'tricep dips': "Tricep dips help build upper arm strength. Use a bench or chair, with hands behind you. Lower your body by bending your elbows, then press back up.",
-    'bridge': "Bridges target the glutes, hamstrings, and lower back. Lie on your back with knees bent and feet flat on the ground, then lift your hips towards the ceiling.",
-    'default': "Explore each exercise to learn proper form and techniques for a safe and effective workout."
+  'pushups': "Pushups target your chest, shoulders, and triceps. Keep your body in a straight line from head to heels and lower your body until your chest nearly touches the floor.",
+  'sit-ups': "Sit-ups primarily target your abdominal muscles. Lie on your back with knees bent and feet anchored. Tuck your chin slightly, and lift your upper body towards your thighs.",
+  'squats': "Squats strengthen your lower body and core. Stand with feet hip-width apart, then bend at the knees and hips to lower down as if sitting back into a chair.",
+  'lunges': "Lunges are great for leg and glute strengthening. Step forward with one leg, lowering your hips until both knees are bent at about a 90-degree angle.",
+  'planks': "Planks strengthen the core, shoulders, and arms. Position yourself in a pushup stance but with your forearms on the ground. Keep your body straight and hold.",
+  'mountain climbers': "Mountain climbers are a full-body workout that also provides a cardio boost. Start in a plank position, then alternate bringing your knees towards your chest rapidly.",
+  'burpees': "Burpees are a high-intensity, full-body exercise. Start standing, drop into a squat, kick your feet back into a pushup position, then return to standing and jump.",
+  'leg raises': "Leg raises target the lower abdomen. Lie on your back, legs straight, then lift your legs to a 90-degree angle and slowly lower them back down.",
+  'tricep dips': "Tricep dips help build upper arm strength. Use a bench or chair, with hands behind you. Lower your body by bending your elbows, then press back up.",
+  'bridge': "Bridges target the glutes, hamstrings, and lower back. Lie on your back with knees bent and feet flat on the ground, then lift your hips towards the ceiling.",
+  'hand release pushups': "Hand Release Pushups involve lowering yourself to the floor, lifting your hands off the ground, then pushing up. This enhances chest and arm engagement.",
+  'pike pushups': "Pike Pushups target your shoulders by elevating your hips and performing a pushup, mimicking an overhead press motion.",
+  'diamond pushups': "Diamond Pushups intensify tricep engagement by placing your hands close together under your chest and performing a pushup.",
+  'bear crawls': "Bear Crawls improve full-body strength and coordination by moving on all fours, keeping your back flat and knees close to the ground.",
+  'lateral plank walks': "Lateral Plank Walks strengthen your core and shoulders by walking sideways in a plank position.",
+  'crab walks': "Crab Walks target your arms and legs in reverse, enhancing mobility and strength as you walk backwards on all fours.",
+  'flutter kicks': "Flutter Kicks are performed lying on your back, legs extended, kicking them up and down to target the lower abs.",
+  'russian twists': "Russian Twists work the obliques. Sit with bent knees, lean back slightly, and twist your torso side to side, optionally holding weight.",
+  'frog jumps': "Frog Jumps boost leg strength and explosiveness. Squat down, then jump forward, landing back in a squat.",
+  'inchworms': "Inchworms engage the full body by walking your hands forward into a plank, then walking your feet towards your hands, and repeating.",
   };
   
 
@@ -45,11 +63,12 @@ const getWorkoutDescription = (workoutName) => {
 };
 
 const WorkoutSessionScreen = ({ route, navigation }) => {
-  const { workouts, showRecommendations = true } = route.params; 
+  const { workouts, showRecommendations = true,  caloriesBurned } = route.params; 
   const [currentIndex, setCurrentIndex] = useState(0);
   const fadeAnim = new Animated.Value(0);
   const screenWidth = Dimensions.get('window').width;
   const { user } = useUser();
+  const [startTime, setStartTime] = useState(Date.now());
 
   useEffect(() => {
     Animated.timing(fadeAnim, {
@@ -59,13 +78,25 @@ const WorkoutSessionScreen = ({ route, navigation }) => {
     }).start();
   }, [currentIndex]);
 
+  const totalCaloriesBurned = workouts.reduce((sum, workout) => sum + workout.caloriesBurned, 0);
+
   const handleNextWorkout = () => {
     if (currentIndex < workouts.length - 1) {
-      setCurrentIndex(currentIndex + 1);
+        setCurrentIndex(currentIndex + 1);
     } else {
-      navigation.navigate('WorkoutHome');
+        const endTime = Date.now(); // Capture end time
+        const duration = endTime - startTime; // Calculate duration in milliseconds
+
+        // Convert milliseconds to minutes and seconds
+        const durationMinutes = Math.floor(duration / 60000); // Convert milliseconds to minutes
+        const durationSeconds = Math.floor((duration % 60000) / 1000); // Convert remainder to seconds
+
+        Alert.alert("Congratulations", `You've finished your workout session, burned approximately ${totalCaloriesBurned || caloriesBurned} calories, and spent ${durationMinutes} minutes and ${durationSeconds} seconds!`, [
+          { text: "OK", onPress: () => navigation.goBack() }
+      ]);
     }
-  };
+};
+
 
   const handleEndSession = () => {
     navigation.navigate('WorkoutHome');
@@ -88,6 +119,7 @@ const WorkoutSessionScreen = ({ route, navigation }) => {
     }
     return recommendationParts.length > 0 ? recommendationParts.join(", ") : "No specific recommendation";
   };
+  
 
   return (
     <View style={styles.container}>

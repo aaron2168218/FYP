@@ -1,33 +1,28 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { workoutData } from './Data';
 
 
-// Static data simulating predefined workouts
 const workoutsLibrary = [
     {
       id: 'chestPump',
       routineName: 'Chest Pump',
       description: 'A challenging chest routine to build strength and endurance.',
       difficulty: 'Intermediate',
+      caloriesBurned: 210,
       workouts: [
         {
           id: '1',
           name: 'Pushups',
-          description: 'Standard pushups to strengthen the chest, shoulders, and triceps.',
-          image: require('./assets/pushup.png'),
         },
         {
           id: '7',
-          name: 'Burpees',
-          description: 'A full-body exercise that includes a pushup in each rep.',
-          image: require('./assets/burpees.png'),
+          name: 'Burpees'
         },
         {
           id: '9',
           name: 'Tricep Dips',
-          description: 'Targets the triceps and also engages the chest and shoulders.',
-          image: require('./assets/dips.png'),
         },
         // Adding two more exercises for the chest workout
       ],
@@ -37,24 +32,19 @@ const workoutsLibrary = [
       routineName: 'Core Crush',
       description: 'Strengthen your core with these intense abdominal exercises.',
       difficulty: 'Intermediate',
+      caloriesBurned: 240,
       workouts: [
         {
           id: '2',
           name: 'Sit-ups',
-          description: 'Targets the abdominal muscles for core strength.',
-          image: require('./assets/situps.png'),
         },
         {
           id: '5',
           name: 'Planks',
-          description: 'An isometric core strength exercise that involves maintaining a position similar to a pushup for the maximum possible time.',
-          image: require('./assets/plank.png'),
         },
         {
           id: '6',
           name: 'Mountain Climbers',
-          description: 'A compound exercise that works several muscles simultaneously and increases the heart rate.',
-          image: require('./assets/mountain.png'),
         },
         // Adding two more exercises for the core workout
       ],
@@ -64,36 +54,27 @@ const workoutsLibrary = [
         routineName: 'Leg Day',
         description: 'A comprehensive leg workout targeting strength and endurance.',
         difficulty: 'Intermediate',
+        caloriesBurned: 200,
         workouts: [
           {
             id: '3',
             name: 'Squats',
-            description: 'A fundamental exercise that targets the quadriceps, hamstrings, and glutes.',
-            image: require('./assets/squats.png'),
           },
           {
             id: '4',
             name: 'Lunges',
-            description: 'Effective for strengthening the legs and improving balance and stability.',
-            image: require('./assets/lunges.png'),
           },
           {
             id: '10',
             name: 'Bridge',
-            description: 'Great for targeting the glutes, hamstrings, and lower back.',
-            image: require('./assets/bridge.png'),
           },
           {
             id: '8',
             name: 'Leg Raises',
-            description: 'Targets the lower abs and improves hip flexibility.',
-            image: require('./assets/Leg-raises.png'),
           },
           {
             id: '6',
             name: 'Mountain Climbers',
-            description: 'Provides a cardiovascular workout while targeting the legs.',
-            image: require('./assets/mountain.png'),
           },
         ],
       },
@@ -102,24 +83,19 @@ const workoutsLibrary = [
         routineName: 'Arm Assault',
         description: 'Tone and strengthen your arms with these targeted exercises.',
         difficulty: 'Beginner',
+        caloriesBurned: 180,
         workouts: [
           {
             id: '1',
             name: 'Pushups',
-            description: 'Engages the triceps, chest, and shoulders.',
-            image: require('./assets/pushup.png'),
           },
           {
             id: '9',
             name: 'Tricep Dips',
-            description: 'Focuses on the triceps with some engagement of the shoulders and chest.',
-            image: require('./assets/dips.png'),
           },
           {
             id: '7',
             name: 'Burpees',
-            description: 'A full-body exercise that helps tone the arms.',
-            image: require('./assets/burpees.png'),
           },
           // Adding two more exercises that focus on arm strength
         ],
@@ -129,36 +105,27 @@ const workoutsLibrary = [
         routineName: 'Total Body',
         description: 'Engage all major muscle groups with this full-body workout routine.',
         difficulty: 'Advanced',
+        caloriesBurned: 210,
         workouts: [
           {
             id: '3',
             name: 'Squats',
-            description: 'Builds lower body and core strength.',
-            image: require('./assets/squats.png'),
           },
           {
             id: '1',
             name: 'Pushups',
-            description: 'Strengthens the upper body and core.',
-            image: require('./assets/pushup.png'),
           },
           {
             id: '5',
             name: 'Planks',
-            description: 'Strengthens the core, shoulders, and arms.',
-            image: require('./assets/plank.png'),
           },
           {
             id: '7',
             name: 'Burpees',
-            description: 'Boosts strength and cardiovascular fitness.',
-            image: require('./assets/burpees.png'),
           },
           {
             id: '6',
             name: 'Mountain Climbers',
-            description: 'Improves cardiovascular health while strengthening the body.',
-            image: require('./assets/mountain.png'),
           },
         ],
       },
@@ -180,9 +147,22 @@ const workoutsLibrary = [
       );
   
     // Updated function to navigate to WorkoutSession screen
-    const handleGoToWorkoutSession = (workouts) => {
-        navigation.navigate('WorkoutSession', { workouts, showRecommendations: false });
-      };
+    const handleGoToWorkoutSession = (routine) => {
+      const detailedWorkouts = routine.workouts.map(workout => {
+        // Find the detailed workout data by matching the workout name
+        const detailedWorkout = workoutData.find(w => w.name === workout.name);
+        return {
+          ...workout,
+          // Include additional details from the detailedWorkout, such as recommendations
+          description: detailedWorkout.description,
+          recommendations: detailedWorkout.recommendations,
+          caloriesBurned: detailedWorkout.caloriesBurned, // Include this if you want to override any existing values
+        };
+      });
+    
+      navigation.navigate('WorkoutSession', { workouts: detailedWorkouts, caloriesBurned: routine.caloriesBurned, showRecommendations: true });
+    };
+      
   
       return (
         <View style={styles.container}>
@@ -211,9 +191,9 @@ const workoutsLibrary = [
                     ))}
                   </View>
                 )}
-                <TouchableOpacity style={styles.goButton} onPress={() => handleGoToWorkoutSession(routine.workouts)}>
-                  <Text style={styles.goButtonText}>GO</Text>
-                </TouchableOpacity>
+<TouchableOpacity style={styles.goButton} onPress={() => handleGoToWorkoutSession(routine)}>
+  <Text style={styles.goButtonText}>GO</Text>
+</TouchableOpacity>
               </View>
             ))}
           </ScrollView>
@@ -262,6 +242,7 @@ const workoutsLibrary = [
     container: {
       flex: 1,
       padding: 20,
+      backgroundColor: "#F0F0F0",
     },
     routineBox: {
       backgroundColor: '#fff',

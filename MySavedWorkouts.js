@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Alert, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Alert, ScrollView, TextInput } from 'react-native';
 import { useUser } from './UserContext';
 
 const MySavedWorkouts = ({ navigation }) => {
   const { user, deleteRoutine } = useUser();
   const [expandedWorkout, setExpandedWorkout] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const toggleWorkoutDetails = (index) => {
     setExpandedWorkout(expandedWorkout === index ? null : index);
@@ -38,10 +39,20 @@ const MySavedWorkouts = ({ navigation }) => {
     });
   };
 
+  const filteredWorkouts = user && user.savedWorkouts.filter(workout => 
+    workout.routineName.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.title}>My Saved Workouts</Text>
-      {user && user.savedWorkouts.map((workout, index) => (
+      <TextInput
+        style={styles.searchBar}
+        placeholder="Search workouts..."
+        value={searchQuery}
+        onChangeText={text => setSearchQuery(text)}
+      />
+      {filteredWorkouts && filteredWorkouts.map((workout, index) => (
         <View key={index} style={styles.workoutBox}>
           <TouchableOpacity onPress={() => toggleWorkoutDetails(index)} style={styles.workoutHeader}>
             <Text style={styles.workoutName}>{workout.routineName}</Text>
@@ -55,7 +66,7 @@ const MySavedWorkouts = ({ navigation }) => {
             </View>
           )}
           <View style={styles.buttonGroup}>
-            <TouchableOpacity style={styles.actionButton} onPress={() =>  handleEditWorkout(workout, index)}>
+            <TouchableOpacity style={styles.actionButton} onPress={() => handleEditWorkout(workout, index)}>
               <Text style={styles.actionButtonText}>Edit</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.actionButton} onPress={() => handleDeleteWorkout(index)}>
@@ -72,6 +83,17 @@ const MySavedWorkouts = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  searchBar: {
+    backgroundColor: '#fff',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 25,
+    fontSize: 16,
+    marginBottom: 20,
+    marginHorizontal: 10,
+    borderWidth: 1,
+    borderColor: '#ddd',
+  },
 
     buttonGroup: {
     flexDirection: 'row',
@@ -125,7 +147,7 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       padding: 20,
-      backgroundColor: '#f5f5f5', // Lighter background for a cleaner look
+      backgroundColor: "#F0F0F0",
     },
     title: {
       fontSize: 24,
