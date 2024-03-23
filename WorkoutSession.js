@@ -48,7 +48,7 @@ const workoutDescriptions = {
   'pike pushups': "Pike Pushups target your shoulders by elevating your hips and performing a pushup, mimicking an overhead press motion.",
   'diamond pushups': "Diamond Pushups intensify tricep engagement by placing your hands close together under your chest and performing a pushup.",
   'bear crawls': "Bear Crawls improve full-body strength and coordination by moving on all fours, keeping your back flat and knees close to the ground.",
-  'lateral plank walks': "Lateral Plank Walks strengthen your core and shoulders by walking sideways in a plank position.",
+  'lateral planks walks': "Lateral Plank Walks strengthen your core and shoulders by walking sideways in a plank position.",
   'crab walks': "Crab Walks target your arms and legs in reverse, enhancing mobility and strength as you walk backwards on all fours.",
   'flutter kicks': "Flutter Kicks are performed lying on your back, legs extended, kicking them up and down to target the lower abs.",
   'russian twists': "Russian Twists work the obliques. Sit with bent knees, lean back slightly, and twist your torso side to side, optionally holding weight.",
@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between', // Add this line
     alignItems: 'center',
     padding: 20,
-    backgroundColor: '#F0F4F8',
+    backgroundColor: '#E0F7FA',
   },
   card: {
     backgroundColor: '#FFFFFF',

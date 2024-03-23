@@ -83,6 +83,7 @@ const MySavedWorkouts = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  
   searchBar: {
     backgroundColor: '#fff',
     paddingHorizontal: 20,
@@ -93,6 +94,16 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     borderWidth: 1,
     borderColor: '#ddd',
+  },
+  title: {
+    fontSize: 28, // Increased font size for prominence
+    fontWeight: 'bold', // Bold for a strong presence
+    color: '#0277BD', // Adjusted to a vibrant shade of blue for contrast
+    marginBottom: 20, // Space below the title
+    textAlign: 'center', // Center-aligned
+    textShadowColor: 'rgba(0, 0, 0, 0.25)', // Dark shadow for depth
+    textShadowOffset: { width: 1, height: 1 }, // Slight shadow offset
+    textShadowRadius: 2, // Soft shadow blur
   },
 
     buttonGroup: {
@@ -118,43 +129,10 @@ const styles = StyleSheet.create({
   },
   // Keep your deleteButton styles as they are
   
-  editButton: {
-    backgroundColor: '#2196F3', // Blue color for the edit button
-    paddingVertical: 8,
-    paddingHorizontal: 20,
-    borderRadius: 20,
-    marginLeft: 10, // Space between delete and edit buttons
-    shadowColor: '#2196F3',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-    elevation: 2,
-  },
-  
-  goButton: {
-    backgroundColor: '#4CAF50', // Green color for the go button
-    paddingVertical: 8,
-    paddingHorizontal: 20,
-    borderRadius: 20,
-    marginLeft: 10, // Space between edit and go buttons
-    shadowColor: '#4CAF50',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-    elevation: 2,
-  },
-  
     container: {
       flex: 1,
       padding: 20,
-      backgroundColor: "#F0F0F0",
-    },
-    title: {
-      fontSize: 24,
-      fontWeight: 'bold',
-      color: '#333', // Darker color for better contrast
-      marginBottom: 20,
-      textAlign: 'center', // Center-align the title
+      backgroundColor: "#E0F7FA",
     },
     workoutBox: {
       backgroundColor: '#ffffff', // Use white for a clean, modern appearance
@@ -182,22 +160,6 @@ const styles = StyleSheet.create({
       fontStyle: 'italic',
       color: '#666', // Lighter text for descriptions
     },
-    goButton: {
-      backgroundColor: '#4CAF50', // A more vibrant green
-      paddingVertical: 8,
-      paddingHorizontal: 20,
-      borderRadius: 20, // More rounded button
-      shadowColor: '#4CAF50', // Matching shadow color
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.2,
-      shadowRadius: 3,
-      elevation: 2,
-    },
-    goButtonText: {
-      color: '#FFFFFF',
-      fontWeight: 'bold',
-      fontSize: 16, // Larger font for button text
-    },
     workoutDetails: {
       marginTop: 20,
     },
@@ -206,26 +168,7 @@ const styles = StyleSheet.create({
       marginTop: 5,
       color: '#555', // Dark gray for sub workout names
     },
-    deleteButton: {
-        marginTop: 20,
-        backgroundColor: '#f44336', // A vibrant red for visibility
-        paddingVertical: 8, // Reduced padding to make the button smaller
-        paddingHorizontal: 20, // Adjusted for text length
-        borderRadius: 20, // Rounded corners for a modern look
-        width: '50%', // Adjust width as needed or use 'auto' if you want it to shrink-wrap the content
-        alignSelf: 'center', // Center the button in its container
-        shadowColor: '#f44336',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.2,
-        shadowRadius: 3,
-        elevation: 2,
-      },
-    deleteButtonText: {
-      color: '#FFFFFF',
-      fontWeight: 'bold',
-      fontSize: 16,
-      textAlign: 'center',
-    },
+
   });
   
 

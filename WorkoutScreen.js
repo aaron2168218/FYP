@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native';
 
 // Tips array
 const tips = [
@@ -19,6 +19,7 @@ const WorkoutScreen = ({ navigation }) => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
+       <Image source={require('./assets/Logo1.png')} style={styles.logo} />
       <Text style={styles.title}>Workouts</Text>
       <TouchableOpacity
         style={styles.button}
@@ -47,6 +48,12 @@ const WorkoutScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  logo: {
+    width: 125,
+    height: 125,
+    marginBottom: 25,
+    marginTop: -40,
+  },
   container: {
     flexGrow: 1,
     justifyContent: 'center',
@@ -59,9 +66,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 30,
     color: '#083D77',
+    marginTop: 0,
   },
   button: {
-    backgroundColor: '#F4D35E',
+    backgroundColor: '#2196F3',
     paddingVertical: 15,
     paddingHorizontal: 30,
     borderRadius: 25,
@@ -75,7 +83,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   buttonText: {
-    color: '#083D77',
+    color: '#fff',
     fontSize: 18,
     fontWeight: 'bold',
   },

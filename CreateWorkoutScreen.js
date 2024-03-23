@@ -354,6 +354,7 @@ const recommendedWorkouts = {
         )}
       />
 <TouchableOpacity
+
   style={styles.saveButton}
   onPress={() => {
     const selectedWorkoutsFull = selectedWorkouts.map(id => workoutData.find(workout => workout.id === id));
@@ -376,6 +377,11 @@ const recommendedWorkouts = {
   
 
 const styles = StyleSheet.create({
+  logo: {
+    width: 200,
+    height: 200,
+    marginBottom: 50,
+  },
   container: {
     flex: 1,
     marginTop: 20,
@@ -440,6 +446,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 10,
     marginBottom: 10,
+    backgroundColor: 'white',
   },
   filterContainer: {
     flexDirection: 'row',

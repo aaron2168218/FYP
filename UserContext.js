@@ -66,12 +66,15 @@ export const UserProvider = ({ children }) => {
       const updatedUser = { ...user, ...updatedDetails };
       try {
         await AsyncStorage.setItem(user.username, JSON.stringify(updatedUser));
+        await AsyncStorage.setItem('currentUser', JSON.stringify(updatedUser));
         setUser(updatedUser); // Update user in context with new details
+        console.log("User details updated", updatedUser);
       } catch (error) {
         console.error("Error updating user details:", error);
       }
     }
   };
+
   
 
   const logout = () => {

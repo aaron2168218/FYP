@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    backgroundColor: '#E0F7FA',
   },
   input: {
     borderWidth: 1,
@@ -72,6 +73,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 20,
     borderRadius: 5,
+    backgroundColor: 'white',
   },
   list: {
     marginBottom: 20,

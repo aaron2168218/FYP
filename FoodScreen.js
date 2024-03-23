@@ -106,7 +106,7 @@ export default function FoodScreen() {
           style={styles.input}
         />
         <TouchableOpacity style={styles.addButton} onPress={addFoodItem}>
-          <Text style={styles.addButtonText}>Add</Text>
+          <Text style={styles.addButtonText}>+</Text>
         </TouchableOpacity>
       </View>
       <FlatList
@@ -119,7 +119,7 @@ export default function FoodScreen() {
             <TouchableOpacity
               style={styles.deleteButton}
               onPress={() => deleteFoodItem(item.id)}>
-              <Text style={styles.deleteButtonText}>Delete</Text>
+              <Text style={styles.deleteButtonText}>X</Text>
             </TouchableOpacity>
           </View>
         )}
@@ -135,114 +135,128 @@ export default function FoodScreen() {
   );
 }
 const styles = StyleSheet.create({
-  remainingCalories: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginTop: 10,
-    textAlign: 'center',
-    color: '#00695C', // Choose a color that fits your app's theme
-  },
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: 'white',
+    padding: 15,
+    backgroundColor: '#E0F7FA',
   },
   title: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 'bold',
-    color: '#5C6BC0',
+    color: '#333',
     alignSelf: 'center',
     marginBottom: 20,
   },
   setTargetButton: {
-    backgroundColor: '#1E88E5',
-    padding: 10,
-    borderRadius: 5,
+    backgroundColor: '#4CAF50',
+    paddingVertical: 12,
+    paddingHorizontal: 25,
+    borderRadius: 25,
     alignSelf: 'center',
     marginBottom: 20,
+    shadowColor: '#2E7D32',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
   },
   setTargetButtonText: {
-    color: '#FFF',
-    fontWeight: 'bold',
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '600',
   },
   foodInputContainer: {
     flexDirection: 'row',
-    marginBottom: 20,
+    marginBottom: 15,
+    alignItems: 'center',
   },
   input: {
     flex: 1,
-    borderBottomWidth: 1,
-    borderColor: '#B3E5FC',
+    backgroundColor: '#FFFFFF',
     padding: 10,
+    borderRadius: 20,
     marginRight: 10,
+    borderWidth: 1,
+    borderColor: '#BDBDBD',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
   },
   addButton: {
-    backgroundColor: '#1E88E5',
-    padding: 10,
-    borderRadius: 5,
+    backgroundColor: '#29B6F6',
+    padding: 15,
+    borderRadius: 30,
+    width: 60,
+    height: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 4,
   },
   addButtonText: {
-    color: '#FFF',
+    color: '#FFFFFF',
+    fontSize: 24,
     fontWeight: 'bold',
-    textAlign: 'center',
   },
   foodItem: {
-    backgroundColor: '#E0F7FA',
-    padding: 10,
-    borderRadius: 5,
+    backgroundColor: '#FFF',
+    padding: 15,
+    borderRadius: 10,
     marginBottom: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    flexWrap: 'wrap',
   },
   foodItemText: {
-    color: '#00695C',
+    color: '#37474F',
     fontSize: 16,
-    fontWeight: 'bold',
-    flex: 1,
-    flexWrap: 'wrap',
-    marginRight: 10,
+    flexShrink: 1,
+    paddingRight: 10,
   },
   timestamp: {
-    color: '#666',
     fontSize: 14,
-    marginRight: 5, // Added space between timestamp and delete button
+    color: '#78909C',
+    paddingRight: 10,
   },
   deleteButton: {
-    backgroundColor: '#E53935',
-    padding: 6,
-    borderRadius: 5,
+    backgroundColor: '#EF5350',
+    padding: 8,
+    borderRadius: 16,
   },
   deleteButtonText: {
     color: '#FFFFFF',
-    fontWeight: 'bold',
-    fontSize: 14,
+    fontSize: 16,
   },
   clearAllButton: {
-    backgroundColor: '#1E88E5',
-    padding: 10,
-    borderRadius: 5,
-    marginTop: 10,
+    backgroundColor: '#EF5350',
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 25,
     alignSelf: 'center',
+    marginTop: 20,
+    shadowColor: '#D32F2F',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
   },
   clearAllButtonText: {
     color: '#FFFFFF',
-    fontWeight: 'bold',
+    fontSize: 16,
+    fontWeight: '600',
   },
   totalCalories: {
     fontSize: 18,
     fontWeight: 'bold',
     marginTop: 20,
     textAlign: 'center',
-    color: '#00695C', // Deep Teal for importance
+    color: '#43A047',
   },
   targetCalories: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#00695C', // Teal Green for information
     marginBottom: 20,
     textAlign: 'center',
+    color: '#1B5E20',
   },
   centeredView: {
     flex: 1,
@@ -257,20 +271,26 @@ const styles = StyleSheet.create({
     padding: 35,
     alignItems: 'center',
     shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
   },
   modalInput: {
-    width: 200,
-    borderBottomWidth: 1,
-    borderColor: 'gray',
-    marginBottom: 15,
+    width: '80%',
     padding: 10,
-    textAlign: 'center',
+    marginBottom: 20,
+    borderBottomWidth: 1,
+    borderColor: '#BDBDBD',
+    borderRadius: 5,
+    fontSize: 16,
   },
-}); 
+  remainingCalories: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginTop: 10,
+    marginBottom: 20,
+    textAlign: 'center',
+    color: 'black'
+  },
+});

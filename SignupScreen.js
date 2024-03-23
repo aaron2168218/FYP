@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#f5f5f5",
+    backgroundColor: "#E0F7FA",
   },
   title: {
     fontSize: 24,
@@ -133,6 +133,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     width: "80%",
     marginBottom: 20,
+    backgroundColor: 'white',
   },
   fitnessLevelOption: {
     padding: 10,

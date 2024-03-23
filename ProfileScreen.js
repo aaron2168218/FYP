@@ -1,7 +1,10 @@
-import React, { useState } from "react";
-import { View, Text, Image, TextInput, TouchableOpacity, StyleSheet, ScrollView, Alert } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, Image, TextInput, TouchableOpacity, StyleSheet, ScrollView, Alert, Platform } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useUser } from "./UserContext";
+import * as ImagePicker from 'expo-image-picker';
+
+
 
 const ProfileScreen = () => {
   const { user, logout, updateUserDetails } = useUser();
@@ -12,7 +15,7 @@ const ProfileScreen = () => {
   const [weight, setWeight] = useState(user?.weight?.toString() || "");
   const [height, setHeight] = useState(user?.height?.toString() || "");
   const [fitnessLevel, setFitnessLevel] = useState(user?.fitnessLevel || "");
-
+  const [avatarSource, setAvatarSource] = useState(user?.avatarUrl || "https://via.placeholder.com/150");
   const fitnessLevels = ["Beginner", "Intermediate", "Advanced"];
 
   const handleSaveDetails = () => {
@@ -31,20 +34,60 @@ const ProfileScreen = () => {
     });
   };
 
+  
+
   const handleLogout = () => {
     logout();
     navigation.replace("Login");
   };
 
+  useEffect(() => {
+    (async () => {
+      if (Platform.OS !== 'web') {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
+          alert('Sorry, we need camera roll permissions to make this work!');
+        }
+      }
+    })();
+  }, []);
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+  
+    console.log("Image picker result: ", result); // Log the entire result to check the structure
+    
+    if (!result.cancelled) {
+      // Ensure that we are accessing the 'assets' array and getting the first element
+      const uri = result.assets && result.assets.length > 0 ? result.assets[0].uri : null;
+      console.log("Selected image URI: ", uri); // Now we should get the actual URI
+  
+      if (uri) {
+        setAvatarSource(uri); // Use the URI from the 'assets' array
+        updateUserDetails({ ...user, avatarUrl: uri }).catch(console.error);
+      }
+    }
+  };
+  
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.profileContainer}>
-        <Image
-          source={{ uri: user?.avatarUrl || "https://via.placeholder.com/150" }}
-          style={styles.avatar}
-        />
-        <Text style={styles.username}>{user?.username || "John Doe"}</Text>
+      <TouchableOpacity onPress={pickImage} style={styles.avatarContainer}>
+      <Image
+  source={{ uri: `${avatarSource}?${new Date().getTime()}` }} // Force refresh
+  style={styles.avatar}
+/>
 
+  <Text style={styles.changePhotoText}></Text>
+</TouchableOpacity>
+        <Text style={styles.username}>{user?.username || "John Doe"}</Text>
+  
         {isEditing ? (
           <>
             <TextInput
@@ -97,7 +140,7 @@ const ProfileScreen = () => {
             </TouchableOpacity>
           </View>
         )}
-
+  
         <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
           <Text style={styles.buttonText}>Logout</Text>
         </TouchableOpacity>
@@ -111,11 +154,24 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     justifyContent: "center",
-    backgroundColor: "#f5f5f5",
+    alignItems: "center",
+    backgroundColor: "#E0F7FA",
   },
   profileContainer: {
     alignItems: "center",
     padding: 20,
+    backgroundColor: "#ffffff", // Adding a white background
+    borderRadius: 10, // Rounded corners
+    width: '90%', // Restrict container width for better layout on larger screens
+    shadowColor: "#000", // Shadow for depth
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
+    marginBottom: 20, // Add some space at the bottom
   },
   avatar: {
     width: 150,
@@ -129,15 +185,15 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     color: "#333",
-    marginBottom: 10,
+    marginBottom: 20, // Increased space below username
   },
   input: {
     borderWidth: 1,
-    borderColor: "gray",
-    width: "80%",
-    padding: 10,
-    marginBottom: 20,
-    borderRadius: 5,
+    borderColor: "#ccc", // Lighter border color
+    width: "100%", // Use full container width
+    padding: 12,
+    marginBottom: 15,
+    borderRadius: 20, // More rounded corners for input fields
     backgroundColor: "#fff",
   },
   saveButton: {
@@ -146,32 +202,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 25,
     marginBottom: 20,
-    width: "80%",
+    width: "100%", // Use full width
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 2,
+    marginTop: 10, // Added some top margin
   },
   logoutButton: {
     backgroundColor: "#ff6b6b",
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 25,
-    width: "80%",
+    width: "100%", // Use full width
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 2,
+    marginTop: 10, // Added some top margin
   },
   buttonText: {
     color: "#fff",
@@ -180,16 +222,18 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     marginBottom: 20,
+    width: "100%", // Use full width
   },
   infoText: {
     fontSize: 16,
     color: "#555",
-    marginBottom: 8,
+    marginBottom: 10, // Increased space between info texts
   },
   fitnessLevelsContainer: {
     flexDirection: "row",
     justifyContent: "center",
-    marginVertical: 10,
+    marginVertical: 20, // Increased vertical margin for better spacing
+    width: "100%", // Use full width
   },
   fitnessLevelButton: {
     backgroundColor: "#e7e7e7",
@@ -204,25 +248,14 @@ const styles = StyleSheet.create({
   fitnessLevelButtonText: {
     color: "#333",
   },
-  fitnessLevelButtonTextSelected: {
-    color: "#fff",
-  },
   editButton: {
-    marginBottom: 20,
-    backgroundColor: "#4e9caf", // Change background color
-    paddingVertical: 12, // Increase vertical padding
-    paddingHorizontal: 40, // Increase horizontal padding
+    backgroundColor: "#4e9caf",
+    paddingVertical: 12,
+    paddingHorizontal: 20,
     borderRadius: 25,
-    width: "80%",
+    width: "100%", // Use full width
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 2,
+    marginTop: 10, // Added some top margin
   },
 });
 

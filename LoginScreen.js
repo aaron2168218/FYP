@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Alert,
+  Image,
 } from "react-native";
 import { useUser } from "./UserContext"; // Adjust the path as necessary
 
@@ -38,6 +39,7 @@ const LoginScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+              <Image source={require('./assets/Logo1.png')} style={styles.logo} />
       <Text style={styles.title}>Login</Text>
       <TextInput
         placeholder="Username"
@@ -68,12 +70,17 @@ const LoginScreen = ({ navigation }) => {
   );
 };
 const styles = StyleSheet.create({
+  logo: {
+    width: 200,
+    height: 200,
+    marginBottom: 50,
+  },
   container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: "#E0F7FA",
   },
   title: {
     fontSize: 24,

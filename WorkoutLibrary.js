@@ -129,7 +129,137 @@ const workoutsLibrary = [
           },
         ],
       },
-      // Existing routines continued...
+      {
+        id: 'flexibilityFocus',
+        routineName: 'Flexibility Focus',
+        description: 'A routine aimed at improving flexibility and core strength.',
+        difficulty: 'Beginner',
+        caloriesBurned: 150,
+        workouts: [
+          {
+            id: '15', // Lateral Planks Walks
+            name: 'Lateral Planks Walks',
+          },
+          {
+            id: '17', // Flutter Kicks
+            name: 'Flutter Kicks',
+          },
+          {
+            id: '20', // Inchworms
+            name: 'Inchworms',
+          },
+          {
+            id: '5', // Planks
+            name: 'Planks',
+          },
+        ],
+      },
+    
+      // New Cardio Blast Routine
+      {
+        id: 'cardioBlast',
+        routineName: 'Cardio Blast',
+        description: 'An intense routine designed to boost cardiovascular health and endurance.',
+        difficulty: 'Advanced',
+        caloriesBurned: 300,
+        workouts: [
+          {
+            id: '6', // Mountain Climbers
+            name: 'Mountain Climbers',
+          },
+          {
+            id: '7', // Burpees
+            name: 'Burpees',
+          },
+          {
+            id: '19', // Frog Jumps
+            name: 'Frog Jumps',
+          },
+          {
+            id: '14', // Bear Crawls
+            name: 'Bear Crawls',
+          },
+          
+        ],
+      },
+      {
+        id: 'balanceBasics',
+        routineName: 'Balance Basics',
+        description: 'Focus on improving your balance and coordination with these foundational exercises.',
+        difficulty: 'Beginner',
+        caloriesBurned: 150,
+        workouts: [
+          {
+            id: '22', // Hollow Body Hold
+            name: 'Hollow Body Hold',
+          },
+          {
+            id: '20', // Inchworms
+            name: 'Inchworms',
+          },
+          {
+            id: '21', // Reverse Snow Angels
+            name: 'Reverse Snow Angels',
+          },
+          {
+            id: '24', // Cossack Squats
+            name: 'Cossack Squats',
+          },
+        ],
+      },
+      {
+        id: 'agilityAces',
+        routineName: 'Agility Aces',
+        description: 'Enhance your agility, speed, and reaction time with these dynamic exercises.',
+        difficulty: 'Intermediate',
+        caloriesBurned: 200,
+        workouts: [
+          {
+            id: '14', // Bear Crawls
+            name: 'Bear Crawls',
+          },
+          {
+            id: '16', // Crab Walks
+            name: 'Crab Walks',
+          },
+          {
+            id: '19', // Frog Jumps
+            name: 'Frog Jumps',
+          },
+          {
+            id: '6', // Mountain Climbers
+            name: 'Mountain Climbers',
+          },
+        ],
+      },
+      {
+        id: 'hiitHeroes',
+        routineName: 'HIIT Heroes',
+        description: 'A high-intensity interval training routine to boost your cardiovascular fitness and endurance.',
+        difficulty: 'Advanced',
+        caloriesBurned: 300,
+        workouts: [
+          {
+            id: '7', // Burpees
+            name: 'Burpees',
+          },
+          {
+            id: '12', // Pike Pushups
+            name: 'Pike Pushups',
+          },
+          {
+            id: '18', // Russian Twists
+            name: 'Russian Twists',
+          },
+          {
+            id: '17', // Flutter Kicks
+            name: 'Flutter Kicks',
+          },
+        ],
+      }
+      
+      
+    
     ];
     
     const WorkoutLibrary = () => {
@@ -242,7 +372,7 @@ const workoutsLibrary = [
     container: {
       flex: 1,
       padding: 20,
-      backgroundColor: "#F0F0F0",
+      backgroundColor: "#E0F7FA",
     },
     routineBox: {
       backgroundColor: '#fff',
