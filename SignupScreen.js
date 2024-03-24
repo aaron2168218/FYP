@@ -23,7 +23,6 @@ const SignupScreen = ({ navigation }) => {
   const fitnessLevels = ["Beginner", "Intermediate", "Advanced"];
 
   const handleSignup = async () => {
-    // userDetails object containing additional information
     const userDetails = {
       age: age,
       weight: weight,
@@ -49,16 +48,13 @@ const SignupScreen = ({ navigation }) => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Create an Account</Text>
-      {/* Username and Password Inputs */}
       <TextInput placeholder="Username" value={username} onChangeText={setUsername} style={styles.input} />
       <TextInput placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry={true} style={styles.input} />
 
-      {/* Age, Weight, Height Inputs */}
       <TextInput placeholder="Age" value={age} onChangeText={setAge} keyboardType="numeric" style={styles.input} />
       <TextInput placeholder="Weight (kg)" value={weight} onChangeText={setWeight} keyboardType="numeric" style={styles.input} />
       <TextInput placeholder="Height (cm)" value={height} onChangeText={setHeight} keyboardType="numeric" style={styles.input} />
 
-      {/* Fitness Level Selection */}
       <Text style={styles.fitnessLevelTitle}>Fitness Level</Text>
       <View style={styles.fitnessLevelsContainer}>
         {fitnessLevels.map((level) => (
@@ -71,7 +67,6 @@ const SignupScreen = ({ navigation }) => {
         ))}
       </View>
 
-      {/* Signup and Back Buttons */}
       <TouchableOpacity onPress={handleSignup} style={styles.button}>
         <Text style={styles.buttonText}>Sign Up</Text>
       </TouchableOpacity>
@@ -103,7 +98,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 20,
     borderRadius: 5,
-    backgroundColor: "#fff",
+    backgroundColor: "#FFF",
   },
   button: {
     backgroundColor: "#4e9caf",

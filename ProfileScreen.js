@@ -65,7 +65,7 @@ const ProfileScreen = () => {
     if (!result.cancelled) {
       // Ensure that we are accessing the 'assets' array and getting the first element
       const uri = result.assets && result.assets.length > 0 ? result.assets[0].uri : null;
-      console.log("Selected image URI: ", uri); // Now we should get the actual URI
+      console.log("Selected image URI: ", uri); 
   
       if (uri) {
         setAvatarSource(uri); // Use the URI from the 'assets' array
@@ -160,10 +160,10 @@ const styles = StyleSheet.create({
   profileContainer: {
     alignItems: "center",
     padding: 20,
-    backgroundColor: "#ffffff", // Adding a white background
-    borderRadius: 10, // Rounded corners
-    width: '90%', // Restrict container width for better layout on larger screens
-    shadowColor: "#000", // Shadow for depth
+    backgroundColor: "#ffffff", 
+    borderRadius: 10, 
+    width: '90%', 
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.23,
     shadowRadius: 2.62,
     elevation: 4,
-    marginBottom: 20, // Add some space at the bottom
+    marginBottom: 20,
   },
   avatar: {
     width: 150,
@@ -185,15 +185,15 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     color: "#333",
-    marginBottom: 20, // Increased space below username
+    marginBottom: 20, 
   },
   input: {
     borderWidth: 1,
-    borderColor: "#ccc", // Lighter border color
-    width: "100%", // Use full container width
+    borderColor: "#ccc", 
+    width: "100%", 
     padding: 12,
     marginBottom: 15,
-    borderRadius: 20, // More rounded corners for input fields
+    borderRadius: 20,
     backgroundColor: "#fff",
   },
   saveButton: {
@@ -202,18 +202,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 25,
     marginBottom: 20,
-    width: "100%", // Use full width
+    width: "100%", 
     alignItems: "center",
-    marginTop: 10, // Added some top margin
+    marginTop: 10, 
   },
   logoutButton: {
     backgroundColor: "#ff6b6b",
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 25,
-    width: "100%", // Use full width
+    width: "100%", 
     alignItems: "center",
-    marginTop: 10, // Added some top margin
+    marginTop: 10, 
   },
   buttonText: {
     color: "#fff",
@@ -222,18 +222,18 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     marginBottom: 20,
-    width: "100%", // Use full width
+    width: "100%", 
   },
   infoText: {
     fontSize: 16,
     color: "#555",
-    marginBottom: 10, // Increased space between info texts
+    marginBottom: 10, 
   },
   fitnessLevelsContainer: {
     flexDirection: "row",
     justifyContent: "center",
-    marginVertical: 20, // Increased vertical margin for better spacing
-    width: "100%", // Use full width
+    marginVertical: 20, 
+    width: "100%",
   },
   fitnessLevelButton: {
     backgroundColor: "#e7e7e7",
@@ -253,9 +253,9 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 25,
-    width: "100%", // Use full width
+    width: "100%", 
     alignItems: "center",
-    marginTop: 10, // Added some top margin
+    marginTop: 10,
   },
 });
 

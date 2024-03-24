@@ -24,7 +24,6 @@ const workoutsLibrary = [
           id: '9',
           name: 'Tricep Dips',
         },
-        // Adding two more exercises for the chest workout
       ],
     },
     {
@@ -46,7 +45,7 @@ const workoutsLibrary = [
           id: '6',
           name: 'Mountain Climbers',
         },
-        // Adding two more exercises for the core workout
+
       ],
     },
     {
@@ -97,7 +96,7 @@ const workoutsLibrary = [
             id: '7',
             name: 'Burpees',
           },
-          // Adding two more exercises that focus on arm strength
+
         ],
       },
       {
@@ -155,7 +154,6 @@ const workoutsLibrary = [
         ],
       },
     
-      // New Cardio Blast Routine
       {
         id: 'cardioBlast',
         routineName: 'Cardio Blast',
@@ -283,10 +281,10 @@ const workoutsLibrary = [
         const detailedWorkout = workoutData.find(w => w.name === workout.name);
         return {
           ...workout,
-          // Include additional details from the detailedWorkout, such as recommendations
+
           description: detailedWorkout.description,
           recommendations: detailedWorkout.recommendations,
-          caloriesBurned: detailedWorkout.caloriesBurned, // Include this if you want to override any existing values
+          caloriesBurned: detailedWorkout.caloriesBurned, 
         };
       });
     
@@ -347,17 +345,17 @@ const workoutsLibrary = [
       padding: 10,
       borderRadius: 5,
       marginHorizontal: 5,
-      backgroundColor: '#ccc', // Default background color for filter buttons
+      backgroundColor: '#ccc', 
     },
     filterButtonActive: {
-      backgroundColor: '#007bff', // Active background color for filter buttons
+      backgroundColor: '#007bff', 
     },
     filterButtonText: {
       color: '#FFFFFF',
       fontWeight: 'bold',
     },
     goButton: {
-      backgroundColor: '#4CAF50', // Example color
+      backgroundColor: '#4CAF50',
       padding: 10,
       marginTop: 10,
       borderRadius: 5,

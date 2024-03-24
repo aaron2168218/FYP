@@ -1,11 +1,46 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Alert, ScrollView, TextInput } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Modal, Button, Platform, View, Text, TouchableOpacity, StyleSheet, Alert, ScrollView, TextInput } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import * as Notifications from 'expo-notifications';
 import { useUser } from './UserContext';
 
 const MySavedWorkouts = ({ navigation }) => {
   const { user, deleteRoutine } = useUser();
   const [expandedWorkout, setExpandedWorkout] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isPickerShow, setIsPickerShow] = useState(false);
+  const [date, setDate] = useState(new Date());
+
+  const showPicker = () => {
+    setIsPickerShow(true);
+  };
+
+  const onChange = (event, value) => {
+    setDate(value || date);
+    if (Platform.OS === 'android') {
+      setIsPickerShow(false);
+    }
+  };
+
+  useEffect(() => {
+    Notifications.setNotificationHandler({
+      handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: true,
+        shouldSetBadge: false,
+      }),
+    });
+  
+    const subscription = Notifications.addNotificationReceivedListener(notification => {
+      alert(notification.request.content.body);
+    });
+  
+    return () => {
+      Notifications.removeNotificationSubscription(subscription);
+    };
+  }, []);
+
+  
 
   const toggleWorkoutDetails = (index) => {
     setExpandedWorkout(expandedWorkout === index ? null : index);
@@ -43,6 +78,56 @@ const MySavedWorkouts = ({ navigation }) => {
     workout.routineName.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const handleScheduleWorkout = async (workoutName) => {
+    setIsPickerShow(false); // Ensure the picker is closed immediately when this function is invoked
+
+    const { status } = await Notifications.requestPermissionsAsync();
+    if (status !== 'granted') {
+      alert('You need to grant permissions to send notifications.');
+      return;
+    }
+
+    let secondsUntilScheduled = Math.floor((date.getTime() - new Date().getTime()) / 1000);
+    if (secondsUntilScheduled < 0) {
+      alert('Please pick a date and time in the future.');
+      return;
+    }
+
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "Workout Reminder",
+        body: `It's time for your ${workoutName} workout!`,
+      },
+      trigger: { seconds: secondsUntilScheduled },
+    });
+
+    alert(`Workout scheduled for ${date.toLocaleString()}!`);
+};
+
+  const renderDateTimePicker = () => (
+    <Modal
+      transparent={true}
+      animationType="slide"
+      visible={isPickerShow}
+      onRequestClose={() => setIsPickerShow(false)}>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+        <View style={{ backgroundColor: 'white', borderRadius: 20, padding: 35, alignItems: 'center', shadowColor: '#000', elevation: 5 }}>
+          <DateTimePicker
+            value={date}
+            mode={'datetime'}
+            is24Hour={true}
+            display="default"
+            onChange={onChange}
+          />
+          <View style={{ flexDirection: 'row', marginTop: 20 }}>
+            <Button title="Cancel" onPress={() => setIsPickerShow(false)} />
+            <Button title="Set Reminder" onPress={() => handleScheduleWorkout("Your Workout")} />
+          </View>
+        </View>
+      </View>
+    </Modal>
+  );
+
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.title}>My Saved Workouts</Text>
@@ -52,7 +137,10 @@ const MySavedWorkouts = ({ navigation }) => {
         value={searchQuery}
         onChangeText={text => setSearchQuery(text)}
       />
-      {filteredWorkouts && filteredWorkouts.map((workout, index) => (
+      {renderDateTimePicker()}
+      {user && user.savedWorkouts.filter(workout => 
+        workout.routineName.toLowerCase().includes(searchQuery.toLowerCase())
+      ).map((workout, index) => (
         <View key={index} style={styles.workoutBox}>
           <TouchableOpacity onPress={() => toggleWorkoutDetails(index)} style={styles.workoutHeader}>
             <Text style={styles.workoutName}>{workout.routineName}</Text>
@@ -71,6 +159,9 @@ const MySavedWorkouts = ({ navigation }) => {
             </TouchableOpacity>
             <TouchableOpacity style={styles.actionButton} onPress={() => handleDeleteWorkout(index)}>
               <Text style={styles.actionButtonText}>Delete</Text>
+              </TouchableOpacity>
+            <TouchableOpacity style={styles.actionButton} onPress={showPicker}>
+              <Text style={styles.actionButtonText}>Schedule</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.actionButton} onPress={() => handleGoToWorkoutSession(workout.workouts)}>
               <Text style={styles.actionButtonText}>GO</Text>
@@ -81,6 +172,8 @@ const MySavedWorkouts = ({ navigation }) => {
     </ScrollView>
   );
 };
+
+
 
 const styles = StyleSheet.create({
   
@@ -96,38 +189,36 @@ const styles = StyleSheet.create({
     borderColor: '#ddd',
   },
   title: {
-    fontSize: 28, // Increased font size for prominence
-    fontWeight: 'bold', // Bold for a strong presence
-    color: '#0277BD', // Adjusted to a vibrant shade of blue for contrast
-    marginBottom: 20, // Space below the title
-    textAlign: 'center', // Center-aligned
-    textShadowColor: 'rgba(0, 0, 0, 0.25)', // Dark shadow for depth
-    textShadowOffset: { width: 1, height: 1 }, // Slight shadow offset
-    textShadowRadius: 2, // Soft shadow blur
+    fontSize: 28, 
+    fontWeight: 'bold', 
+    color: '#0277BD', 
+    marginBottom: 20, 
+    textAlign: 'center', 
+
+
+    textShadowRadius: 2, 
   },
 
     buttonGroup: {
     flexDirection: 'row',
-    justifyContent: 'space-evenly', // This will space out your buttons evenly
+    justifyContent: 'space-evenly', 
     alignItems: 'center',
     marginTop: 20,
   },
   actionButton: {
-    backgroundColor: '#2196F3', // Blue color for all action buttons
+    backgroundColor: '#2196F3', 
     paddingVertical: 8,
     paddingHorizontal: 20,
     borderRadius: 20,
-    // Ensuring each button has equal width and alignments
     flexGrow: 1,
     marginHorizontal: 5,
   },
   actionButtonText: {
     color: '#FFFFFF',
     fontWeight: 'bold',
-    textAlign: 'center', // Ensuring text is centered in each button
+    textAlign: 'center', 
     fontSize: 16,
   },
-  // Keep your deleteButton styles as they are
   
     container: {
       flex: 1,
@@ -135,15 +226,15 @@ const styles = StyleSheet.create({
       backgroundColor: "#E0F7FA",
     },
     workoutBox: {
-      backgroundColor: '#ffffff', // Use white for a clean, modern appearance
-      borderRadius: 15, // Rounded corners for a softer look
+      backgroundColor: '#ffffff', 
+      borderRadius: 15,
       padding: 20,
       marginBottom: 20,
-      shadowColor: '#000', // Shadow for depth
+      shadowColor: '#000',
       shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.1,
       shadowRadius: 4,
-      elevation: 3, // Elevation for Android shadow
+      elevation: 3, 
     },
     workoutHeader: {
       flexDirection: 'row',
@@ -152,21 +243,21 @@ const styles = StyleSheet.create({
     },
     workoutName: {
       fontSize: 20,
-      fontWeight: '600', // Slightly less bold for a modern look
-      color: '#444', // Dark gray for text
+      fontWeight: '600', 
+      color: '#444',
     },
     workoutDescription: {
       marginTop: 10,
       fontStyle: 'italic',
-      color: '#666', // Lighter text for descriptions
+      color: '#666',
     },
     workoutDetails: {
       marginTop: 20,
     },
     subWorkoutName: {
-      fontSize: 18, // Larger for readability
+      fontSize: 18,
       marginTop: 5,
-      color: '#555', // Dark gray for sub workout names
+      color: '#555',
     },
 
   });

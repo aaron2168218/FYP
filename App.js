@@ -3,7 +3,7 @@ import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-import { UserProvider } from "./UserContext"; // Adjust the path to your UserContext file
+import { UserProvider } from "./UserContext"; 
 import WorkoutScreen from "./WorkoutScreen";
 import ProfileScreen from "./ProfileScreen";
 import FoodScreen from "./FoodScreen";
@@ -18,7 +18,7 @@ import WorkoutLibrary from "./WorkoutLibrary";
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-// Define a standalone component for the Workout related screens
+
 function WorkoutStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>

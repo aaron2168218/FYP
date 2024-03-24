@@ -27,8 +27,7 @@ export const UserProvider = ({ children }) => {
       const userString = await AsyncStorage.getItem(username);
       const storedUser = userString ? JSON.parse(userString) : null;
       if (storedUser && storedUser.password === password) {
-        // Assume savedWorkouts is part of storedUser
-        setUser(storedUser); // Set the user with all details including fitnessLevel
+        setUser(storedUser); 
         console.log("User logged in:", storedUser); // Log the full user object
         return true;
       }
@@ -49,7 +48,7 @@ export const UserProvider = ({ children }) => {
         const newUser = {
           username,
           password,
-          ...userDetails, // Include additional details such as fitnessLevel, age, etc.
+          ...userDetails, 
           savedWorkouts: []
         };
         await AsyncStorage.setItem(username, JSON.stringify(newUser));

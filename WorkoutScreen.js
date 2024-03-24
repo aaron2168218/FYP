@@ -20,7 +20,7 @@ const WorkoutScreen = ({ navigation }) => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
        <Image source={require('./assets/Logo1.png')} style={styles.logo} />
-      <Text style={styles.title}>Workouts</Text>
+      <Text style={styles.title}></Text>
       <TouchableOpacity
         style={styles.button}
         onPress={() => navigation.navigate('MySavedWorkouts')}
@@ -49,8 +49,8 @@ const WorkoutScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   logo: {
-    width: 125,
-    height: 125,
+    width: 175,
+    height: 175,
     marginBottom: 25,
     marginTop: -40,
   },

@@ -84,12 +84,12 @@ const WorkoutSessionScreen = ({ route, navigation }) => {
     if (currentIndex < workouts.length - 1) {
         setCurrentIndex(currentIndex + 1);
     } else {
-        const endTime = Date.now(); // Capture end time
-        const duration = endTime - startTime; // Calculate duration in milliseconds
+        const endTime = Date.now(); 
+        const duration = endTime - startTime; 
 
-        // Convert milliseconds to minutes and seconds
-        const durationMinutes = Math.floor(duration / 60000); // Convert milliseconds to minutes
-        const durationSeconds = Math.floor((duration % 60000) / 1000); // Convert remainder to seconds
+
+        const durationMinutes = Math.floor(duration / 60000); 
+        const durationSeconds = Math.floor((duration % 60000) / 1000); 
 
         Alert.alert("Congratulations", `You've finished your workout session, burned approximately ${totalCaloriesBurned || caloriesBurned} calories, and spent ${durationMinutes} minutes and ${durationSeconds} seconds!`, [
           { text: "OK", onPress: () => navigation.goBack() }
@@ -103,7 +103,7 @@ const WorkoutSessionScreen = ({ route, navigation }) => {
   };
 
   const displayRecommendation = () => {
-    if (!showRecommendations) return ""; // Do not show recommendations if parameter is false
+    if (!showRecommendations) return "";
   
     const currentWorkout = workouts[currentIndex];
     if (!user || !user.fitnessLevel || !currentWorkout.recommendations) {
@@ -151,14 +151,14 @@ const WorkoutSessionScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   recommendationText: {
     fontSize: 20,
-    color: '#F89880', // Blue color
+    color: '#F89880', 
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 20,
   },
   container: {
     flex: 1,
-    justifyContent: 'space-between', // Add this line
+    justifyContent: 'space-between',
     alignItems: 'center',
     padding: 20,
     backgroundColor: '#E0F7FA',
@@ -183,9 +183,9 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   image: {
-    width: 150, // Adjusted from '100%' to a fixed width
-    height: 150, // Adjusted height to maintain aspect ratio, if necessary
-    borderRadius: 10, // You can adjust this as needed
+    width: 150,
+    height: 150,
+    borderRadius: 10, 
     marginBottom: 15,
   },
   description: {
@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   endSessionButton: {
-    backgroundColor: '#FF6347', // Different color to distinguish it from the next/finish button
+    backgroundColor: '#FF6347', 
   },
   buttonText: {
     color: '#FFFFFF',

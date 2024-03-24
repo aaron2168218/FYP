@@ -8,9 +8,9 @@ import {
   Alert,
   Image,
 } from "react-native";
-import { useUser } from "./UserContext"; // Adjust the path as necessary
+import { useUser } from "./UserContext";
 
-// This import statement remains unchanged as async/await are JavaScript keywords
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = ({ navigation }) => {

@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   clearAllButton: {
-    backgroundColor: '#EF5350',
+    backgroundColor: '#2196F3',
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 25,

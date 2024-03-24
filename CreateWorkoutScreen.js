@@ -377,11 +377,7 @@ const recommendedWorkouts = {
   
 
 const styles = StyleSheet.create({
-  logo: {
-    width: 200,
-    height: 200,
-    marginBottom: 50,
-  },
+  
   container: {
     flex: 1,
     marginTop: 20,
